@@ -12,7 +12,31 @@
         <h1>My Library</h1>
     </header>
     <main id="books-container">
-        <h2>Books</h2>
+        <div>
+            <h2>Books</h2>
+            <label for="new-book">New book 
+                <button id="new-book">+</button>
+            </label>
+            <dialog id="add-book-form">
+                <form method="dialog">
+                    <h3>Add new book</h3>
+                    <p>
+                        <label for="title">Title</label><br>
+                        <input type="text" id="title" name="title">
+                    </p>
+                    <p>
+                        <label for="author">Author</label><br>
+                        <input type="text" id="author" name="author">
+                    </p>
+                    <p>
+                        <label for="no-of-pages">No of pages</label><br>
+                        <input type="number" id="no-of-pages" name="no-of-pages">
+                    </p>
+                    <button id="add-book">Add book</button>
+                    <button id="close-dialog">Cancel</button>
+                </form>
+            </dialog>
+        </div>
         <div id="cards-container"></div>
     </main>
 </body>

@@ -39,3 +39,28 @@ addBookToLibrary("Book3", "Abhish", 25);
 console.log(library)
 
 displayBooks();
+
+const newBookBtn = document.querySelector("#new-book");
+const dialog = document.querySelector("#add-book-form");
+const addBookBtn = document.querySelector("#add-book")
+const closeDialogBtn = document.querySelector("#close-dialog")
+const titleInput = document.querySelector("#title");
+const authorInput = document.querySelector("#author");
+const pagesInput = document.querySelector("#no-of-pages");
+
+newBookBtn.addEventListener("click", () => {
+    dialog.showModal();
+})
+
+closeDialogBtn.addEventListener("click", () => {
+    dialog.close()
+} )
+
+addBookBtn.addEventListener("click", event => {
+    const title = titleInput.value;
+    const author = authorInput.value;
+    const pages = pagesInput.value;
+    addBookToLibrary(title, author, pages);
+    cardContainer.textContent = "";
+    displayBooks();
+})
