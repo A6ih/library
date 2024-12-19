@@ -1,21 +1,28 @@
 const library = [];
-let counter = 1;
 
 function Book(title, author, pages, status, description,) {
-    this.id = `b${counter++}`;
     this.title = title;
+    this.id = createId(this.title);
     this.author = author || "Not specified";
     this.pages = pages || "Not specified";
-    this.status = status;
+    this.status = status || "Not specified";
     this.description = description || `${this.title}, by ${this.author} with ${this.pages} pages.`;
 }
+
+function createId(item) {
+    const newItem = item.toLowerCase().
+                    split(" ").
+                    join("-");
+    return newItem;
+}
+
 
 Book.prototype.toggleReadStatus = function() {
 
 }
 
-function addBookToLibrary(title, author, pages, description) {
-    library.push(new Book(title, author, pages, description))
+function addBookToLibrary(title, author, pages, status, description) {
+    library.push(new Book(title, author, pages, status, description))
 }
 
 const cardContainer = document.querySelector("#cards-container");
@@ -30,6 +37,9 @@ function displayBooks(){
         author.setAttribute("class", "author")
         const pages = document.createElement("p");
         author.setAttribute("class", "no-of-pages");
+        const readStatus = document.createElement("button");
+        readStatus.setAttribute("class", "read-status");
+        readStatus.textContent = book.status;
         const description = document.createElement("p");
         description.setAttribute("class", "description");
         description.textContent = `Description: ${book.description}`
@@ -40,19 +50,20 @@ function displayBooks(){
         title.textContent = `Title: ${book.title}`;
         author.textContent = `Author: ${book.author}`;
         pages.textContent = `No of pages: ${book.pages} pages`;
-        const cardContent = [title, author, pages, description, removeBtn];
+        const cardContent = [title, author, pages, readStatus, description, removeBtn];
         const cardAppend = cardContent.forEach(content =>  {
             card.appendChild(content);
         })
+        console.log(removeBtn.getAttribute("id"))
         cardContainer.appendChild(card);
         removeBtn.addEventListener("click", removeBook)
     })
 }
 
 
-addBookToLibrary("The Hobbit", "J.R.R. Tolkien", 295);
-addBookToLibrary("Harry Potter and the Chamber of Secrets", "J.K Rowling", 251);
-addBookToLibrary("A Tale of Two Cities", "Charles Dickens", 300);
+addBookToLibrary("The Hobbit", "J.R.R. Tolkien", 295, "Read");
+addBookToLibrary("Harry Potter and the Chamber of Secrets", "J.K Rowling", 251, "To be Read");
+addBookToLibrary("A Tale of Two Cities", "Charles Dickens", 300, "Reading");
 
 
 displayBooks();
@@ -78,6 +89,7 @@ closeDialogBtn.addEventListener("click", () => {
     dialog.close()
 } )
 
+
 addBookBtn.addEventListener("click", event => {
     if(!titleInput.value) {
         return;
@@ -86,7 +98,8 @@ addBookBtn.addEventListener("click", event => {
     const author = authorInput.value;
     const pages = pagesInput.value;
     const description = descriptionInput.value;
-    addBookToLibrary(title, author, pages, description);
+    const status = document.querySelector("input[name='status']:checked").value;
+    addBookToLibrary(title, author, pages, status, description);
     cardContainer.textContent = "";
     displayBooks();
     console.log(library);
