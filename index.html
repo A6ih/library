@@ -17,52 +17,52 @@
             <label for="new-book">New book 
                 <button id="new-book">+</button>
             </label>
-            <dialog id="add-book-form">
-                <form method="dialog">
-                    <h3>Add new book</h3>
-                    <p>
-                        <label for="title">Title</label><br>
-                        <input type="text" id="title" name="title" required>
-                    </p>
-                    <p>
-                        <label for="author">Author</label><br>
-                        <input type="text" id="author" name="author">
-                    </p>
-                    <p>
-                        <label for="no-of-pages">No of pages</label><br>
-                        <input type="number" id="no-of-pages" name="no-of-pages">
-                    </p>
-                    <p>
-                        <fieldset>
-                            <legend>Status</legend>
-
-                            <input type="radio" name="status" id="to-be-read" value="To be Read" checked>
-                            <label for="to-be-read">To be Read</label><br>
-                            <input type="radio" name="status" id="reading" value="Reading">
-                            <label for="reading">Reading</label><br>
-                            <input type="radio" name="status" id="read" value="Read">
-                            <label for="read">Read</label><br>
-                        </fieldset>
-                    </p>
-                    <p>
-                        <label for="description">Description</label><br>
-                        <textarea id="description" name="description"></textarea>
-                    </p>
-                    <button id="add-book">Add book</button>
-                    <button id="close-dialog">Cancel</button>
-                </form>
-            </dialog>
-            <dialog id="confirmation">
-                <form method="dialog">
-                    <p id="confirmation-msg">
-                    </p>
-                    <div>
-                        <button id="confirmation-yes">Yes</button>
-                        <button id="confirmation-cancel">Cancel</button>
-                    </div>
-                </form>
-            </dialog>
         </div>
+        <dialog id="add-book-form">
+            <form method="dialog">
+                <h3>Add new book</h3>
+                <p>
+                    <label for="title">Title</label><br>
+                    <input type="text" id="title" name="title" required>
+                </p>
+                <p>
+                    <label for="author">Author</label><br>
+                    <input type="text" id="author" name="author">
+                </p>
+                <p>
+                    <label for="no-of-pages">No of pages</label><br>
+                    <input type="number" id="no-of-pages" name="no-of-pages">
+                </p>
+                <p>
+                    <fieldset>
+                        <legend>Status</legend>
+
+                        <input type="radio" name="status" id="to-be-read" value="To be Read" checked>
+                        <label for="to-be-read">To be Read</label><br>
+                        <input type="radio" name="status" id="reading" value="Reading">
+                        <label for="reading">Reading</label><br>
+                        <input type="radio" name="status" id="read" value="Read">
+                        <label for="read">Read</label><br>
+                    </fieldset>
+                </p>
+                <p>
+                    <label for="description">Description</label><br>
+                    <textarea id="description" name="description"></textarea>
+                </p>
+                <button id="add-book">Add book</button>
+                <button id="close-dialog">Cancel</button>
+            </form>
+        </dialog>
+        <dialog id="confirmation">
+            <form method="dialog">
+                <p id="confirmation-msg">
+                </p>
+                <div>
+                    <button id="confirmation-yes">Yes</button>
+                    <button id="confirmation-cancel">Cancel</button>
+                </div>
+            </form>
+        </dialog>
         <div id="cards-container"></div>
     </main>
 </body>

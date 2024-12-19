@@ -38,7 +38,7 @@ function displayBooks(){
    return library.map(book => {
         const card = document.createElement("div");
         card.setAttribute("class", "book-card");
-        const title = document.createElement("h3");
+        const title = document.createElement("h4");
         title.setAttribute("class", "title");
         const author = document.createElement("p");
         author.setAttribute("class", "author")
@@ -84,6 +84,7 @@ newBookBtn.addEventListener("click", () => {
 
 closeDialogBtn.addEventListener("click", () => {
     dialog.close()
+    return;
 } )
 
 
