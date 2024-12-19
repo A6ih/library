@@ -60,7 +60,7 @@ function displayBooks(){
             card.appendChild(content);
         })
         cardContainer.appendChild(card);
-        removeBtn.addEventListener("click", removeBook)
+        removeBtn.addEventListener("click", removeBookConfirmation)
         book.toggleReadStatus();
     })
 }
@@ -102,30 +102,34 @@ addBookBtn.addEventListener("click", event => {
     console.log(library);
 })
 
+let eventConfirmationId = null;
 
-function removeBook(event) {
+function removeBookConfirmation(event) {
     library.forEach(book => {
-        if(event.target.getAttribute("id") === book.id) {
+        if(event.target.id === book.id) {
             let title = book.title;
             confirmationMsg.textContent = `Are you sure you want to remove ${title} from the library?`
+            eventConfirmationId = event.target.id;
         }
     })
     confirmationDialog.showModal();
-    confirmationCancel.addEventListener("click", () => {
-       event = null;
-    })
-    confirmationYes.addEventListener("click", function(){
-        library.forEach(book => {
-            if(event.target.getAttribute("id") === book.id) {
-                let index = library.indexOf(book);
-                library.splice(index, 1)
-            }
-        })
-        console.log(library);
-        cardContainer.textContent = "";
-        displayBooks();
-    })
 }
+
+confirmationCancel.addEventListener("click", () => {
+    eventConfirmationId = null;
+})
+
+confirmationYes.addEventListener("click", function(){
+    library.forEach(book => {
+        if(eventConfirmationId === book.id) {
+            let index = library.indexOf(book);
+            library.splice(index, 1)
+        }
+    })
+    console.log(library);
+    cardContainer.textContent = "";
+    displayBooks();
+})
 
 function createId(item) {
     const newItem = item.toLowerCase().
