@@ -1,28 +1,49 @@
 const library = [];
 
-function Book(title, author, pages, status, description,) {
+function Book(title, author, pages, description, btn) {
     this.title = title;
     this.id = createId(this.title);
     this.author = author || "Not specified";
     this.pages = pages || "Not specified";
-    this.status = status || "Not specified";
     this.description = description || `${this.title}, by ${this.author} with ${this.pages} pages.`;
+    this.btn = btn;
 }
-
-function createId(item) {
-    const newItem = item.toLowerCase().
-                    split(" ").
-                    join("-");
-    return newItem;
-}
-
 
 Book.prototype.toggleReadStatus = function() {
-
+    this.btn.addEventListener("click", () => {
+        switch(this.btn.textContent) {
+            case "To be Read":
+                switchBtn(this.btn, 1);
+            break;
+            case "Reading":
+                switchBtn(this.btn, 2);
+            break;
+            case "Read":
+                switchBtn(this.btn, 0);
+            break;
+        }
+    })
 }
 
 function addBookToLibrary(title, author, pages, status, description) {
-    library.push(new Book(title, author, pages, status, description))
+    const testBtn = document.createElement("button");
+    testBtn.setAttribute("id", `test-${createId(title)}`);
+    console.log(testBtn.getAttribute("id"));
+    function pickBtnStatus() {
+        switch(status) {
+            case "To be Read":
+                switchBtn(testBtn, 0);
+            break;
+            case "Reading":
+                switchBtn(testBtn, 1);
+            break;
+            case "Read":
+                switchBtn(testBtn, 2);
+            break;
+        }
+    }
+    pickBtnStatus();
+    library.push(new Book(title, author, pages, description, testBtn))
 }
 
 const cardContainer = document.querySelector("#cards-container");
@@ -37,9 +58,6 @@ function displayBooks(){
         author.setAttribute("class", "author")
         const pages = document.createElement("p");
         author.setAttribute("class", "no-of-pages");
-        const readStatus = document.createElement("button");
-        readStatus.setAttribute("class", "read-status");
-        readStatus.textContent = book.status;
         const description = document.createElement("p");
         description.setAttribute("class", "description");
         description.textContent = `Description: ${book.description}`
@@ -50,13 +68,15 @@ function displayBooks(){
         title.textContent = `Title: ${book.title}`;
         author.textContent = `Author: ${book.author}`;
         pages.textContent = `No of pages: ${book.pages} pages`;
-        const cardContent = [title, author, pages, readStatus, description, removeBtn];
+        const testBtn = book.btn;
+        const cardContent = [title, author, pages, description, testBtn, removeBtn];
         const cardAppend = cardContent.forEach(content =>  {
             card.appendChild(content);
         })
         console.log(removeBtn.getAttribute("id"))
         cardContainer.appendChild(card);
         removeBtn.addEventListener("click", removeBook)
+        book.toggleReadStatus();
     })
 }
 
@@ -128,4 +148,35 @@ function removeBook(event) {
         cardContainer.textContent = "";
         displayBooks();
     })
+}
+
+function createId(item) {
+    const newItem = item.toLowerCase().
+                    split(" ").
+                    join("-");
+    return newItem;
+}
+
+function switchBtn(item, number) {
+    const statuses = [{
+        text: "To be Read",
+        color: "green",
+    },
+    {
+        text: "Reading",
+        color: "yellow",
+    },
+    {
+        text: "Read",
+        color: "red",
+    }];
+    item.textContent = statuses[number].text;
+    item.style.backgroundColor = statuses[number].color;
+}
+
+function getBtnColor(item) {
+    switch(item) {
+        case "Read":
+            
+    }
 }
