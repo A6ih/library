@@ -1,15 +1,21 @@
 const library = [];
 let counter = 1;
 
-function Book(title, author, pages) {
+function Book(title, author, pages, status, description,) {
     this.id = `b${counter++}`;
     this.title = title;
-    this.author = author;
-    this.pages = pages;
+    this.author = author || "Not specified";
+    this.pages = pages || "Not specified";
+    this.status = status;
+    this.description = description || `${this.title}, by ${this.author} with ${this.pages} pages.`;
 }
 
-function addBookToLibrary(title, author, pages) {
-    library.push(new Book(title, author, pages))
+Book.prototype.toggleReadStatus = function() {
+
+}
+
+function addBookToLibrary(title, author, pages, description) {
+    library.push(new Book(title, author, pages, description))
 }
 
 const cardContainer = document.querySelector("#cards-container");
@@ -23,7 +29,10 @@ function displayBooks(){
         const author = document.createElement("p");
         author.setAttribute("class", "author")
         const pages = document.createElement("p");
-        author.setAttribute("class", "no-of-pages")
+        author.setAttribute("class", "no-of-pages");
+        const description = document.createElement("p");
+        description.setAttribute("class", "description");
+        description.textContent = `Description: ${book.description}`
         const removeBtn = document.createElement("button");
         removeBtn.setAttribute("class", "remove-btn");
         removeBtn.setAttribute("id", book.id)
@@ -31,10 +40,10 @@ function displayBooks(){
         title.textContent = `Title: ${book.title}`;
         author.textContent = `Author: ${book.author}`;
         pages.textContent = `No of pages: ${book.pages} pages`;
-        card.appendChild(title);
-        card.appendChild(author);
-        card.appendChild(pages);
-        card.appendChild(removeBtn);
+        const cardContent = [title, author, pages, description, removeBtn];
+        const cardAppend = cardContent.forEach(content =>  {
+            card.appendChild(content);
+        })
         cardContainer.appendChild(card);
         removeBtn.addEventListener("click", removeBook)
     })
@@ -55,6 +64,11 @@ const closeDialogBtn = document.querySelector("#close-dialog")
 const titleInput = document.querySelector("#title");
 const authorInput = document.querySelector("#author");
 const pagesInput = document.querySelector("#no-of-pages");
+const descriptionInput = document.querySelector("#description");
+const confirmationDialog = document.querySelector("#confirmation");
+const confirmationMsg = document.querySelector("#confirmation-msg");
+const confirmationYes = document.querySelector("#confirmation-yes");
+const confirmationCancel = document.querySelector("#confirmation-cancel");
 
 newBookBtn.addEventListener("click", () => {
     dialog.showModal();
@@ -65,10 +79,14 @@ closeDialogBtn.addEventListener("click", () => {
 } )
 
 addBookBtn.addEventListener("click", event => {
+    if(!titleInput.value) {
+        return;
+    }
     const title = titleInput.value;
     const author = authorInput.value;
     const pages = pagesInput.value;
-    addBookToLibrary(title, author, pages);
+    const description = descriptionInput.value;
+    addBookToLibrary(title, author, pages, description);
     cardContainer.textContent = "";
     displayBooks();
     console.log(library);
@@ -78,11 +96,23 @@ addBookBtn.addEventListener("click", event => {
 function removeBook(event) {
     library.forEach(book => {
         if(event.target.getAttribute("id") === book.id) {
-            let index = library.indexOf(book);
-            library.splice(index, 1)
+            let title = book.title;
+            confirmationMsg.textContent = `Are you sure you want to remove ${title} from the library?`
         }
     })
-    console.log(library);
-    cardContainer.textContent = "";
-    displayBooks();
+    confirmationDialog.showModal();
+    confirmationCancel.addEventListener("click", () => {
+       event = null;
+    })
+    confirmationYes.addEventListener("click", function(){
+        library.forEach(book => {
+            if(event.target.getAttribute("id") === book.id) {
+                let index = library.indexOf(book);
+                library.splice(index, 1)
+            }
+        })
+        console.log(library);
+        cardContainer.textContent = "";
+        displayBooks();
+    })
 }
