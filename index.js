@@ -38,7 +38,7 @@ function displayBooks(){
    return library.map(book => {
         const card = document.createElement("div");
         card.setAttribute("class", "book-card");
-        const title = document.createElement("h4");
+        const title = document.createElement("h3");
         title.setAttribute("class", "title");
         const author = document.createElement("p");
         author.setAttribute("class", "author")
@@ -166,13 +166,6 @@ function pickBtnStatus(item, button) {
         case "Read":
             switchBtn(button, 2);
         break;
-    }
-}
-
-function getBtnColor(item) {
-    switch(item) {
-        case "Read":
-            
     }
 }
 
