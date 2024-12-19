@@ -26,24 +26,10 @@ Book.prototype.toggleReadStatus = function() {
 }
 
 function addBookToLibrary(title, author, pages, status, description) {
-    const testBtn = document.createElement("button");
-    testBtn.setAttribute("id", `test-${createId(title)}`);
-    console.log(testBtn.getAttribute("id"));
-    function pickBtnStatus() {
-        switch(status) {
-            case "To be Read":
-                switchBtn(testBtn, 0);
-            break;
-            case "Reading":
-                switchBtn(testBtn, 1);
-            break;
-            case "Read":
-                switchBtn(testBtn, 2);
-            break;
-        }
-    }
-    pickBtnStatus();
-    library.push(new Book(title, author, pages, description, testBtn))
+    const statusBtn = document.createElement("button");
+    statusBtn.setAttribute("id", `status-${createId(title)}`);
+    pickBtnStatus(status, statusBtn);
+    library.push(new Book(title, author, pages, description, statusBtn))
 }
 
 const cardContainer = document.querySelector("#cards-container");
@@ -64,29 +50,20 @@ function displayBooks(){
         const removeBtn = document.createElement("button");
         removeBtn.setAttribute("class", "remove-btn");
         removeBtn.setAttribute("id", book.id)
-        removeBtn.textContent = "-";
+        removeBtn.textContent = "Delete";
         title.textContent = `Title: ${book.title}`;
         author.textContent = `Author: ${book.author}`;
         pages.textContent = `No of pages: ${book.pages} pages`;
-        const testBtn = book.btn;
-        const cardContent = [title, author, pages, description, testBtn, removeBtn];
+        const statusBtn = book.btn;
+        const cardContent = [title, author, pages, description, statusBtn, removeBtn];
         const cardAppend = cardContent.forEach(content =>  {
             card.appendChild(content);
         })
-        console.log(removeBtn.getAttribute("id"))
         cardContainer.appendChild(card);
         removeBtn.addEventListener("click", removeBook)
         book.toggleReadStatus();
     })
 }
-
-
-addBookToLibrary("The Hobbit", "J.R.R. Tolkien", 295, "Read");
-addBookToLibrary("Harry Potter and the Chamber of Secrets", "J.K Rowling", 251, "To be Read");
-addBookToLibrary("A Tale of Two Cities", "Charles Dickens", 300, "Reading");
-
-
-displayBooks();
 
 const newBookBtn = document.querySelector("#new-book");
 const dialog = document.querySelector("#add-book-form");
@@ -160,18 +137,32 @@ function createId(item) {
 function switchBtn(item, number) {
     const statuses = [{
         text: "To be Read",
-        color: "green",
+        color: "#32CD32",
     },
     {
         text: "Reading",
-        color: "yellow",
+        color: "#FE691E",
     },
     {
         text: "Read",
-        color: "red",
+        color: "#FF474D",
     }];
     item.textContent = statuses[number].text;
     item.style.backgroundColor = statuses[number].color;
+}
+
+function pickBtnStatus(item, button) {
+    switch(item) {
+        case "To be Read":
+            switchBtn(button, 0);
+        break;
+        case "Reading":
+            switchBtn(button, 1);
+        break;
+        case "Read":
+            switchBtn(button, 2);
+        break;
+    }
 }
 
 function getBtnColor(item) {
@@ -180,3 +171,9 @@ function getBtnColor(item) {
             
     }
 }
+
+addBookToLibrary("The Hobbit", "J.R.R. Tolkien", 295, "Read");
+addBookToLibrary("Harry Potter and the Chamber of Secrets", "J.K Rowling", 251, "To be Read");
+addBookToLibrary("A Tale of Two Cities", "Charles Dickens", 300, "Reading");
+
+displayBooks();
