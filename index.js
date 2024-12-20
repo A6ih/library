@@ -87,14 +87,19 @@ newBookBtn.addEventListener("click", () => {
     dialog.showModal();
 })
 
-closeDialogBtn.addEventListener("click", () => {
-    dialog.close()
+closeDialogBtn.addEventListener("click", (event) => {
+    event.preventDefault();
+    dialog.close();
     return;
 } )
 
 
 addBookBtn.addEventListener("click", event => {
     if(!titleInput.value) {
+        return;
+    }
+    if(checkDuplicate(createId(titleInput.value))) {
+        alert("This book already exist")
         return;
     }
     const title = titleInput.value;
@@ -173,6 +178,12 @@ function pickBtnStatus(item, button) {
             switchBtn(button, 2);
         break;
     }
+}
+
+function checkDuplicate(item) {
+    const ids = library.map(book => book.id);
+    const duplicate = ids.includes(item);
+    return duplicate;
 }
 
 addBookToLibrary("The Hobbit", "J.R.R. Tolkien", 295, `The Hobbit is set within Tolkien's Middle-earth and follows the quest of home-loving Bilbo Baggins, the titular hobbit, to win a share of the treasure guarded by a dragon named Smaug. Bilbo's journey takes him from his light-hearted, rural surroundings into more sinister territory.`, "Read");
