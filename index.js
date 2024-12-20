@@ -25,9 +25,10 @@ Book.prototype.toggleReadStatus = function() {
     })
 }
 
-function addBookToLibrary(title, author, pages, status, description) {
+function addBookToLibrary(title, author, pages, description, status) {
     const statusBtn = document.createElement("button");
     statusBtn.setAttribute("id", `status-${createId(title)}`);
+    statusBtn.setAttribute("class", "status-btn")
     pickBtnStatus(status, statusBtn);
     library.push(new Book(title, author, pages, description, statusBtn))
 }
@@ -38,7 +39,7 @@ function displayBooks(){
    return library.map(book => {
         const card = document.createElement("div");
         card.setAttribute("class", "book-card");
-        const title = document.createElement("h4");
+        const title = document.createElement("h3");
         title.setAttribute("class", "title");
         const author = document.createElement("p");
         author.setAttribute("class", "author")
@@ -46,16 +47,20 @@ function displayBooks(){
         author.setAttribute("class", "no-of-pages");
         const description = document.createElement("p");
         description.setAttribute("class", "description");
-        description.textContent = `Description: ${book.description}`
         const removeBtn = document.createElement("button");
         removeBtn.setAttribute("class", "remove-btn");
         removeBtn.setAttribute("id", book.id)
-        removeBtn.textContent = "Delete";
-        title.textContent = `Title: ${book.title}`;
-        author.textContent = `Author: ${book.author}`;
-        pages.textContent = `No of pages: ${book.pages} pages`;
+        const btnContainer = document.createElement("div");
+        btnContainer.setAttribute("class", "btn-container")
+        removeBtn.textContent = `Delete`;
+        title.textContent = `${book.title}`;
+        author.textContent = `by ${book.author}`;
+        pages.textContent = `${book.pages} pages`;
+        description.textContent = `${book.description}`
         const statusBtn = book.btn;
-        const cardContent = [title, author, pages, description, statusBtn, removeBtn];
+        btnContainer.appendChild(statusBtn);
+        btnContainer.appendChild(removeBtn);
+        const cardContent = [title, author, pages, description, btnContainer];
         const cardAppend = cardContent.forEach(content =>  {
             card.appendChild(content);
         })
@@ -97,7 +102,7 @@ addBookBtn.addEventListener("click", event => {
     const pages = pagesInput.value;
     const description = descriptionInput.value;
     const status = document.querySelector("input[name='status']:checked").value;
-    addBookToLibrary(title, author, pages, status, description);
+    addBookToLibrary(title, author, pages, description, status);
     cardContainer.textContent = "";
     displayBooks();
     console.log(library);
@@ -146,11 +151,11 @@ function switchBtn(item, number) {
     },
     {
         text: "Reading",
-        color: "#FE691E",
+        color: "#FFE66D",
     },
     {
         text: "Read",
-        color: "#FF474D",
+        color: "#FF6B6B",
     }];
     item.textContent = statuses[number].text;
     item.style.backgroundColor = statuses[number].color;
@@ -170,8 +175,8 @@ function pickBtnStatus(item, button) {
     }
 }
 
-addBookToLibrary("The Hobbit", "J.R.R. Tolkien", 295, "Read");
-addBookToLibrary("Harry Potter and the Chamber of Secrets", "J.K Rowling", 251, "To be Read");
-addBookToLibrary("A Tale of Two Cities", "Charles Dickens", 300, "Reading");
+addBookToLibrary("The Hobbit", "J.R.R. Tolkien", 295, `The Hobbit is set within Tolkien's Middle-earth and follows the quest of home-loving Bilbo Baggins, the titular hobbit, to win a share of the treasure guarded by a dragon named Smaug. Bilbo's journey takes him from his light-hearted, rural surroundings into more sinister territory.`, "Read");
+addBookToLibrary("Harry Potter and the Chamber of Secrets", "J.K Rowling", 251, `The story follows Harry's second year at Hogwarts School of Witchcraft and Wizardry, where the Heir of Salazar Slytherin opens the Chamber of Secrets, unleashing a monster that petrifies the school's students.` ,"To be Read");
+addBookToLibrary("A Tale of Two Cities", "Charles Dickens", 300, `The novel tells the story of the French Doctor Manette, his 18-year-long imprisonment in the Bastille in Paris, and his release to live in London with his daughter Lucie whom he had never met. The story is set against the conditions that led up to the French Revolution and the Reign of Terror.`,"Reading");
 
 displayBooks();
