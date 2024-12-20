@@ -2,10 +2,10 @@ const library = [];
 
 function Book(title, author, pages, description, btn) {
     this.title = title;
-    this.id = createId(this.title);
-    this.author = author || "Not specified";
-    this.pages = pages || "Not specified";
-    this.description = description || `${this.title}, by ${this.author} with ${this.pages} pages.`;
+    this.author = author;
+    this.id = createId(this.title) + createId(this.author);
+    this.pages = pages || "Unknown";
+    this.description = description || "No description"
     this.btn = btn;
 }
 
@@ -98,8 +98,11 @@ addBookBtn.addEventListener("click", event => {
     if(!titleInput.value) {
         return;
     }
-    if(checkDuplicate(createId(titleInput.value))) {
-        alert("This book already exist")
+    if(!authorInput.value) {
+        return;
+    }
+    if(checkDuplicate(createId((titleInput.value + authorInput.value)))) {
+        alert("This book with same author already exist")
         return;
     }
     const title = titleInput.value;
@@ -110,7 +113,6 @@ addBookBtn.addEventListener("click", event => {
     addBookToLibrary(title, author, pages, description, status);
     cardContainer.textContent = "";
     displayBooks();
-    console.log(library);
 })
 
 let eventConfirmationId = null;
@@ -119,7 +121,8 @@ function removeBookConfirmation(event) {
     library.forEach(book => {
         if(event.target.id === book.id) {
             let title = book.title;
-            confirmationMsg.textContent = `Are you sure you want to remove ${title} from the library?`
+            let author = book.author;
+            confirmationMsg.textContent = `Are you sure you want to remove ${title} by ${author} from the library?`
             eventConfirmationId = event.target.id;
         }
     })
@@ -137,7 +140,6 @@ confirmationYes.addEventListener("click", function(){
             library.splice(index, 1)
         }
     })
-    console.log(library);
     cardContainer.textContent = "";
     displayBooks();
 })
