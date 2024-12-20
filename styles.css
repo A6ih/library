@@ -53,7 +53,11 @@ body {
     min-height: 100vh;
     min-width: 100vw;
     position: relative;
-    background-color: #292F36;
+    background-image: url(./images/khaled-khazna-8ucgA-rUIio-unsplash.jpg);
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
+    background-attachment: fixed;
 }
 
 h1 {
@@ -61,6 +65,7 @@ h1 {
     width: 100%;
     background-color: #292F36;
     color: #F7FFF7;
+    text-align: center;
 }
 #books-heading {
     display: flex;
@@ -78,23 +83,29 @@ h1 {
 #cards-container {
     width: 100%;
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(300px, 400px));
     gap: 2rem;
     padding: 1rem;
+    justify-content: center;
     text-align: center;
-    height: 400px;
-    background-color: #292F36;
 }
 
 dialog {
     margin: auto;
+    padding: 1rem 3rem;
+    border: 1px solid black;
+    border-radius: 8px;
+    text-align: center;
 }
 
 .description {
     text-align: center;
+    width: 36ch;
+    margin: auto;
 }
 
 .book-card {
+    height: 380px;
     padding: 1rem 2rem;
     border: 1px solid gray;
     border-radius: 8px;
@@ -106,8 +117,9 @@ dialog {
 
 .btn-container {
     display: flex;
-    justify-content: space-between;
+    justify-content: center;
     margin-top: auto;
+    gap: 3rem;
 }
 
 .status-btn {
@@ -135,4 +147,12 @@ button {
 
 label[for="new-book"] {
     font-size: larger;
+}
+
+fieldset {
+    text-align: left;
+}
+
+legend {
+    text-align: center;
 }
