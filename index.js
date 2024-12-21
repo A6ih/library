@@ -25,7 +25,8 @@ Book.prototype.toggleReadStatus = function(event) {
 
 function addBookToLibrary(title, author, pages, description, status) {
     const statusBtn = document.createElement("button");
-    statusBtn.setAttribute("id", `status-${createId(title)}`);
+    statusBtn.setAttribute("id", `status-${createId(title) + createId(author)}`);
+    console.log(statusBtn.id)
     statusBtn.setAttribute("class", "status-btn")
     pickBtnStatus(status, statusBtn);
     library.push(new Book(title, author, pages, description, statusBtn))
