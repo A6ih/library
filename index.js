@@ -5,24 +5,22 @@ function Book(title, author, pages, description, btn) {
     this.author = author;
     this.id = createId(this.title) + createId(this.author);
     this.pages = pages || "Unknown";
-    this.description = description || "No description"
+    this.description = description || "No description";
     this.btn = btn;
 }
 
-Book.prototype.toggleReadStatus = function() {
-    this.btn.addEventListener("click", () => {
-        switch(this.btn.textContent) {
-            case "To be Read":
-                switchBtn(this.btn, 1);
-            break;
-            case "Reading":
-                switchBtn(this.btn, 2);
-            break;
-            case "Read":
-                switchBtn(this.btn, 0);
-            break;
-        }
-    })
+Book.prototype.toggleReadStatus = function(event) {
+    switch(this.btn.textContent) {
+        case "To be Read":
+            switchBtn(this.btn, 1);
+        break;
+        case "Reading":
+            switchBtn(this.btn, 2);
+        break;
+        case "Read":
+            switchBtn(this.btn, 0);
+        break;
+    }
 }
 
 function addBookToLibrary(title, author, pages, description, status) {
@@ -65,8 +63,8 @@ function displayBooks(){
             card.appendChild(content);
         })
         cardContainer.appendChild(card);
-        removeBtn.addEventListener("click", removeBookConfirmation)
-        book.toggleReadStatus();
+        removeBtn.addEventListener("click", removeBookConfirmation);
+        statusBtn.addEventListener("click", toggleReadBtn);
     })
 }
 
@@ -114,6 +112,17 @@ addBookBtn.addEventListener("click", event => {
     cardContainer.textContent = "";
     displayBooks();
 })
+
+function toggleReadBtn(event) {
+    const target = event.target.id;
+    library.forEach(book => {
+        if(target === book.btn.id) {
+            book.toggleReadStatus();
+        }
+    })
+    cardContainer.textContent = "";
+    displayBooks();
+}
 
 let eventConfirmationId = null;
 
