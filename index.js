@@ -26,7 +26,6 @@ Book.prototype.toggleReadStatus = function(event) {
 function addBookToLibrary(title, author, pages, description, status) {
     const statusBtn = document.createElement("button");
     statusBtn.setAttribute("id", `status-${createId(title) + createId(author)}`);
-    console.log(statusBtn.id)
     statusBtn.setAttribute("class", "status-btn")
     pickBtnStatus(status, statusBtn);
     library.push(new Book(title, author, pages, description, statusBtn))
@@ -77,10 +76,12 @@ const titleInput = document.querySelector("#title");
 const authorInput = document.querySelector("#author");
 const pagesInput = document.querySelector("#no-of-pages");
 const descriptionInput = document.querySelector("#description");
+const duplicateMsg = document.querySelector("#duplicate-msg");
 const confirmationDialog = document.querySelector("#confirmation");
 const confirmationMsg = document.querySelector("#confirmation-msg");
 const confirmationYes = document.querySelector("#confirmation-yes");
 const confirmationCancel = document.querySelector("#confirmation-cancel");
+const allInputs = [titleInput, authorInput, pagesInput, descriptionInput];
 
 newBookBtn.addEventListener("click", () => {
     dialog.showModal();
@@ -88,12 +89,14 @@ newBookBtn.addEventListener("click", () => {
 
 closeDialogBtn.addEventListener("click", (event) => {
     event.preventDefault();
+    clearInputs();
     dialog.close();
     return;
 } )
 
 
 addBookBtn.addEventListener("click", event => {
+    event.preventDefault();
     if(!titleInput.value) {
         return;
     }
@@ -101,9 +104,10 @@ addBookBtn.addEventListener("click", event => {
         return;
     }
     if(checkDuplicate(createId((titleInput.value + authorInput.value)))) {
-        alert("This book with same author already exist")
+        duplicateMsg.textContent = "This book already exist!";
         return;
     }
+    dialog.close();
     const title = titleInput.value;
     const author = authorInput.value;
     const pages = pagesInput.value;
@@ -112,7 +116,15 @@ addBookBtn.addEventListener("click", event => {
     addBookToLibrary(title, author, pages, description, status);
     cardContainer.textContent = "";
     displayBooks();
+    clearInputs();
 })
+
+function clearInputs() {
+    for (let i = 0; i < allInputs.length; i++) {
+        allInputs[i].value = "";
+    }
+    duplicateMsg.textContent = "";
+}
 
 function toggleReadBtn(event) {
     const target = event.target.id;
