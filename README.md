@@ -4,9 +4,9 @@ A project from my learning journey with The Odin Project, this project showcases
 Live preview [here](https://a6ih.github.io/library/)
 
 # Overview
--Add your books to the Library(currenty temporarily as there is no storage implemented yet)
+-Add your books to the Library(currently temporarily as there is no storage implemented yet)
 
--Delete books from the library
+-Delete books from the Library
 
 -Toggle read status with the toggle button added to the book while creation
 
