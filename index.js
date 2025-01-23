@@ -1,25 +1,27 @@
 const library = [];
 
-function Book(title, author, pages, description, btn) {
+class Book {
+    constructor(title, author, pages, description, btn) {
     this.title = title;
     this.author = author;
     this.id = createId(this.title) + createId(this.author);
     this.pages = pages || "Unknown";
     this.description = description || "No description";
     this.btn = btn;
-}
+    }
 
-Book.prototype.toggleReadStatus = function(event) {
-    switch(this.btn.textContent) {
-        case "To be Read":
-            switchBtn(this.btn, 1);
-        break;
-        case "Reading":
-            switchBtn(this.btn, 2);
-        break;
-        case "Read":
-            switchBtn(this.btn, 0);
-        break;
+    toggleReadStatus() {
+        switch(this.btn.textContent) {
+            case "To be Read":
+                switchBtn(this.btn, 1);
+            break;
+            case "Reading":
+                switchBtn(this.btn, 2);
+            break;
+            case "Read":
+                switchBtn(this.btn, 0);
+            break;
+        }
     }
 }
 
