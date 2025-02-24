@@ -99,10 +99,14 @@ closeDialogBtn.addEventListener("click", (event) => {
 
 addBookBtn.addEventListener("click", event => {
     event.preventDefault();
-    if(!titleInput.value) {
+    if(titleInput.validity.valueMissing) {
+        titleInput.setCustomValidity("Title of the book is required");
+        titleInput.reportValidity();
         return;
     }
-    if(!authorInput.value) {
+    if(authorInput.validity.valueMissing) {
+        authorInput.setCustomValidity("Author's name is required")
+        authorInput.reportValidity();
         return;
     }
     if(checkDuplicate(createId((titleInput.value + authorInput.value)))) {
